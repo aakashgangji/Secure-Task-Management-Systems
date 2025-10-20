@@ -1,0 +1,8 @@
+<button 
+  class="theme-toggle-button" 
+  (click)="toggleTheme()"
+  [title]="getThemeTooltip()"
+  [attr.aria-label]="getThemeTooltip()"
+>
+  <span class="theme-icon">{{ getThemeIcon() }}</span>
+</button>

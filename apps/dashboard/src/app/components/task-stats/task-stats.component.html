@@ -1,0 +1,106 @@
+<div class="task-stats-container">
+  <div class="stats-header">
+    <h3 class="stats-title">Task Statistics</h3>
+    <div class="completion-rate">
+      <span class="rate-label">Completion Rate</span>
+      <span class="rate-value">{{ stats.completionRate }}%</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <!-- Bar Chart -->
+    <div class="chart-container">
+      <h4 class="chart-title">Tasks by Status</h4>
+      <div class="bar-chart">
+        <div class="chart-bars">
+          <div class="bar-group">
+            <div class="bar" 
+                 [style.height.%]="getBarHeight('completed')"
+                 [style.background-color]="getStatusColor('completed')">
+            </div>
+            <span class="bar-label">Completed</span>
+            <span class="bar-value">{{ stats.completed }}</span>
+          </div>
+          
+          <div class="bar-group">
+            <div class="bar" 
+                 [style.height.%]="getBarHeight('in_progress')"
+                 [style.background-color]="getStatusColor('in_progress')">
+            </div>
+            <span class="bar-label">In Progress</span>
+            <span class="bar-value">{{ stats.inProgress }}</span>
+          </div>
+          
+          <div class="bar-group">
+            <div class="bar" 
+                 [style.height.%]="getBarHeight('todo')"
+                 [style.background-color]="getStatusColor('todo')">
+            </div>
+            <span class="bar-label">To Do</span>
+            <span class="bar-value">{{ stats.todo }}</span>
+          </div>
+          
+          <div class="bar-group">
+            <div class="bar" 
+                 [style.height.%]="getBarHeight('cancelled')"
+                 [style.background-color]="getStatusColor('cancelled')">
+            </div>
+            <span class="bar-label">Cancelled</span>
+            <span class="bar-value">{{ stats.cancelled }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-icon completed">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-value">{{ stats.completed }}</div>
+          <div class="card-label">Completed</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon in-progress">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-value">{{ stats.inProgress }}</div>
+          <div class="card-label">In Progress</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon todo">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-value">{{ stats.todo }}</div>
+          <div class="card-label">To Do</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-icon cancelled">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-value">{{ stats.cancelled }}</div>
+          <div class="card-label">Cancelled</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="modal-overlay" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Add New Task</h2>
+      <button class="close-button" (click)="closeModal()" type="button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()" class="modal-form">
+      <div class="form-group">
+        <label for="title" class="form-label">Title *</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-input"
+          placeholder="Enter task title"
+          [class.error]="addTaskForm.get('title')?.invalid && addTaskForm.get('title')?.touched"
+        />
+        <div *ngIf="addTaskForm.get('title')?.invalid && addTaskForm.get('title')?.touched" class="error-message">
+          <span *ngIf="addTaskForm.get('title')?.errors?.['required']">Title is required</span>
+          <span *ngIf="addTaskForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-textarea"
+          placeholder="Enter task description"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="status" class="form-label">Status</label>
+          <select id="status" formControlName="status" class="form-select">
+            <option value="todo">To Do</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priority" class="form-label">Priority</label>
+          <select id="priority" formControlName="priority" class="form-select">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category" class="form-label">Category</label>
+          <select id="category" formControlName="category" class="form-select">
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+            <option value="project">Project</option>
+            <option value="meeting">Meeting</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dueDate" class="form-label">Due Date</label>
+          <input
+            type="date"
+            id="dueDate"
+            formControlName="dueDate"
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedToEmails" class="form-label">Assign To</label>
+        <select
+          id="assignedToEmails"
+          formControlName="assignedToEmails"
+          class="form-select"
+          [disabled]="loadingUsers"
+          multiple
+          size="4"
+        >
+          <option *ngFor="let user of users" [value]="user.email">
+            {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+          </option>
+        </select>
+        <small class="form-help">Hold Ctrl/Cmd to select multiple users (optional)</small>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-banner">
+        {{ errorMessage }}
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="isSubmitting">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="addTaskForm.invalid || isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner"></span>
+          {{ isSubmitting ? 'Creating...' : 'Create Task' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

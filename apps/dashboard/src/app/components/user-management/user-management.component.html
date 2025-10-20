@@ -1,0 +1,139 @@
+<div class="user-management-container">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-left">
+        <button class="back-button" (click)="goBack()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Dashboard
+        </button>
+        <h1 class="navbar-title">User Management</h1>
+      </div>
+      <div class="navbar-user">
+        <app-theme-toggle></app-theme-toggle>
+        <span class="user-info">
+          {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+        </span>
+        <span class="role-badge">
+          {{ currentUser?.roles?.[0] | titlecase }}
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="content-header">
+      <div class="header-info">
+        <h2 class="page-title">Manage Users</h2>
+        <p class="page-description">View and manage all users in the system</p>
+      </div>
+      <div class="header-actions">
+        <button class="create-user-button" (click)="openCreateUserModal()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Create User
+        </button>
+      </div>
+    </div>
+
+    <!-- Authentication Loading State -->
+    <div *ngIf="authLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading user profile...</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="!authLoading && loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading users...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!authLoading && error" class="error-state">
+      <div class="error-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+      </div>
+      <h3>Error Loading Users</h3>
+      <p>{{ error }}</p>
+      <button class="retry-button" (click)="loadUsers()">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Users Table -->
+    <div *ngIf="!authLoading && !loading && !error" class="users-table">
+      <div class="table-header">
+        <div class="header-cell">Name</div>
+        <div class="header-cell">Email</div>
+        <div class="header-cell">Role</div>
+        <div class="header-cell">Status</div>
+        <div class="header-cell">Actions</div>
+      </div>
+
+      <div class="table-body">
+        <div *ngFor="let user of users" class="data-row">
+          <div class="data-cell user-info">
+            <div class="user-avatar">
+              {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+            </div>
+            <div class="user-details">
+              <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
+              <div class="user-id">ID: {{ user.id }}</div>
+            </div>
+          </div>
+          <div class="data-cell">
+            <span class="email">{{ user.email }}</span>
+          </div>
+          <div class="data-cell">
+            <span [ngClass]="getRoleClass(user)" class="role-badge">
+              {{ getRoleText(user) }}
+            </span>
+          </div>
+          <div class="data-cell">
+            <span class="status-badge" [ngClass]="'status-' + user.status">
+              {{ user.status | titlecase }}
+            </span>
+          </div>
+          <div class="data-cell actions">
+            <button 
+              *ngIf="canDeleteUser(user)"
+              class="delete-button" 
+              (click)="deleteUser(user)"
+              title="Delete User"
+            >
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Delete
+            </button>
+            <span *ngIf="!canDeleteUser(user)" class="cannot-delete">
+              Cannot delete yourself
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!authLoading && !loading && !error && users.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+        </svg>
+      </div>
+      <h3>No Users Found</h3>
+      <p>There are no users in the system.</p>
+    </div>
+  </div>
+
+  <!-- Create User Modal -->
+  <app-create-user-modal
+    *ngIf="showCreateUserModal"
+    (userCreated)="onUserCreated()"
+    (modalClosed)="onCreateUserModalClosed()"
+  ></app-create-user-modal>
+</div>

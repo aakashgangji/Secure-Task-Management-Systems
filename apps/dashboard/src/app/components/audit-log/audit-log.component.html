@@ -1,0 +1,126 @@
+<div class="audit-log-container">
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-left">
+        <button class="back-button" (click)="goBack()">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Dashboard
+        </button>
+        <h1 class="navbar-title">Audit Logs</h1>
+      </div>
+      <div class="navbar-user">
+        <app-theme-toggle></app-theme-toggle>
+        <span class="user-info">
+          {{ currentUser?.firstName }} {{ currentUser?.lastName }}
+        </span>
+        <span class="role-badge">
+          {{ currentUser?.roles?.[0] | titlecase }}
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="content-header">
+      <h2 class="content-title">System Activity Log</h2>
+      <p class="content-description">
+        Track all user actions and system events for security and compliance.
+      </p>
+    </div>
+
+    <!-- Authentication Loading State -->
+    <div *ngIf="authLoading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading user profile...</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="!authLoading && loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading audit logs...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!authLoading && error" class="error-state">
+      <div class="error-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+      </div>
+      <h3 class="error-title">Error Loading Audit Logs</h3>
+      <p class="error-description">{{ error }}</p>
+      <button class="retry-button" (click)="loadAuditLogs()">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Audit Logs Table -->
+    <div *ngIf="!authLoading && !loading && !error" class="audit-logs-table">
+      <div class="table-header">
+        <div class="table-row header-row">
+          <div class="col-user">User</div>
+          <div class="col-action">Action</div>
+          <div class="col-resource">Resource</div>
+          <div class="col-resource-id">Resource ID</div>
+          <div class="col-timestamp">Timestamp</div>
+          <div class="col-ip">IP Address</div>
+        </div>
+      </div>
+      
+      <div class="table-body">
+        <div *ngFor="let log of auditLogs" class="table-row data-row">
+          <div class="col-user">
+            <div class="user-info">
+              <div class="user-name">
+                {{ log.user?.firstName }} {{ log.user?.lastName }}
+              </div>
+              <div class="user-email">{{ log.user?.email }}</div>
+            </div>
+          </div>
+          
+          <div class="col-action">
+            <span class="action-badge action-{{ log.action }}">
+              {{ getActionText(log.action) }}
+            </span>
+          </div>
+          
+          <div class="col-resource">
+            <span class="resource-badge">
+              {{ getResourceText(log.resource) }}
+            </span>
+          </div>
+          
+          <div class="col-resource-id">
+            <code class="resource-id">{{ log.resourceId }}</code>
+          </div>
+          
+          <div class="col-timestamp">
+            <time class="timestamp">{{ formatDate(log.timestamp) }}</time>
+          </div>
+          
+          <div class="col-ip">
+            <span class="ip-address">{{ log.ipAddress }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!authLoading && !loading && !error && auditLogs.length === 0" class="empty-state">
+      <div class="empty-state-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <h3 class="empty-state-title">No Audit Logs</h3>
+      <p class="empty-state-description">
+        No audit logs found. Activity will appear here as users interact with the system.
+      </p>
+    </div>
+  </div>
+</div>

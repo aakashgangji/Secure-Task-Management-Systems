@@ -1,0 +1,129 @@
+<div class="modal-overlay" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Create New User</h2>
+      <button class="close-button" (click)="closeModal()" type="button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()" class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName" class="form-label">First Name *</label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            class="form-input"
+            placeholder="Enter first name"
+            [class.error]="createUserForm.get('firstName')?.invalid && createUserForm.get('firstName')?.touched"
+          />
+          <div *ngIf="createUserForm.get('firstName')?.invalid && createUserForm.get('firstName')?.touched" class="error-message">
+            <span *ngIf="createUserForm.get('firstName')?.errors?.['required']">First name is required</span>
+            <span *ngIf="createUserForm.get('firstName')?.errors?.['minlength']">First name must be at least 2 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName" class="form-label">Last Name *</label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            class="form-input"
+            placeholder="Enter last name"
+            [class.error]="createUserForm.get('lastName')?.invalid && createUserForm.get('lastName')?.touched"
+          />
+          <div *ngIf="createUserForm.get('lastName')?.invalid && createUserForm.get('lastName')?.touched" class="error-message">
+            <span *ngIf="createUserForm.get('lastName')?.errors?.['required']">Last name is required</span>
+            <span *ngIf="createUserForm.get('lastName')?.errors?.['minlength']">Last name must be at least 2 characters</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address *</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-input"
+          placeholder="Enter email address"
+          [class.error]="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched"
+        />
+        <div *ngIf="createUserForm.get('email')?.invalid && createUserForm.get('email')?.touched" class="error-message">
+          <span *ngIf="createUserForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="createUserForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password" class="form-label">Password *</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-input"
+            placeholder="Enter password"
+            [class.error]="createUserForm.get('password')?.invalid && createUserForm.get('password')?.touched"
+          />
+          <div *ngIf="createUserForm.get('password')?.invalid && createUserForm.get('password')?.touched" class="error-message">
+            <span *ngIf="createUserForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="createUserForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm Password *</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            class="form-input"
+            placeholder="Confirm password"
+            [class.error]="createUserForm.get('confirmPassword')?.invalid && createUserForm.get('confirmPassword')?.touched"
+          />
+          <div *ngIf="createUserForm.get('confirmPassword')?.invalid && createUserForm.get('confirmPassword')?.touched" class="error-message">
+            <span *ngIf="createUserForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</span>
+            <span *ngIf="createUserForm.get('confirmPassword')?.errors?.['passwordMismatch']">Passwords do not match</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div class="role-selection">
+          <label *ngFor="let role of availableRoles" class="role-option">
+            <input
+              type="radio"
+              name="role"
+              [value]="role.value"
+              (change)="onRoleChange($event, role.value)"
+              class="role-radio"
+            />
+            <span class="role-label">{{ role.label }}</span>
+          </label>
+        </div>
+        <small class="form-help">Select one role for the user</small>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-banner">
+        {{ errorMessage }}
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" [disabled]="isSubmitting">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="createUserForm.invalid || isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner"></span>
+          {{ isSubmitting ? 'Creating...' : 'Create User' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

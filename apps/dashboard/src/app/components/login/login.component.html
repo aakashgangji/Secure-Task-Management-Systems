@@ -1,0 +1,78 @@
+<div class="login-container">
+  <div class="login-header">
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+  <div class="login-form">
+    <div>
+      <h2 class="login-title">
+        Sign in to your account
+      </h2>
+      <p class="login-subtitle">
+        Secure Task Management System
+      </p>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email" class="form-label">Email address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          formControlName="email"
+          class="form-input"
+          placeholder="Email address"
+        />
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+             class="form-error">
+          Please enter a valid email address
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          formControlName="password"
+          class="form-input"
+          placeholder="Password"
+        />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+             class="form-error">
+          Password is required
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="form-error" style="text-align: center; margin-bottom: 1rem;">
+        {{ errorMessage }}
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid || isLoading"
+          class="login-button"
+        >
+          {{ isLoading ? 'Signing in...' : 'Sign in' }}
+        </button>
+      </div>
+
+      <div class="test-accounts">
+        <p class="test-accounts-title">
+          Test accounts:
+        </p>
+        <div class="test-accounts-list">
+          <p>Owner: owner_saniya@turbovets.com / password123</p>
+          <p>Admin: admin_aakash@turbovets.com / password123</p>
+          <p>Viewer: viewer_joey@turbovets.com / password123</p>
+          <p>Viewer: test@turbovets.com / password123</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

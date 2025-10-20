@@ -1,0 +1,32 @@
+<div class="modal-overlay" (click)="onBackdropClick($event)">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title">Keyboard Shortcuts</h2>
+      <button class="close-button" (click)="closeModal()" type="button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-content">
+      <div class="shortcuts-list">
+        <div *ngFor="let shortcut of shortcuts" class="shortcut-item">
+          <div class="shortcut-key">
+            <kbd>{{ shortcut.key }}</kbd>
+          </div>
+          <div class="shortcut-info">
+            <div class="shortcut-description">{{ shortcut.description }}</div>
+            <div class="shortcut-available">{{ shortcut.available }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="closeModal()">
+          Got it!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

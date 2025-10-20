@@ -1,0 +1,110 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* CSS Variables for theming */
+:root {
+  /* Light theme colors */
+  --background-color: #ffffff;
+  --surface-color: #f8f9fa;
+  --surface-hover-color: #e9ecef;
+  --text-color: #212529;
+  --text-secondary-color: #6c757d;
+  --text-muted-color: #adb5bd;
+  --border-color: #dee2e6;
+  --border-hover-color: #adb5bd;
+  --accent-color: #007bff;
+  --accent-hover-color: #0056b3;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+  --button-background: #f8f9fa;
+  --button-hover-background: #e9ecef;
+  --button-text: #212529;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme colors */
+.dark-theme {
+  --background-color: #1a1a1a;
+  --surface-color: #2d2d2d;
+  --surface-hover-color: #3a3a3a;
+  --text-color: #ffffff;
+  --text-secondary-color: #b3b3b3;
+  --text-muted-color: #808080;
+  --border-color: #404040;
+  --border-hover-color: #606060;
+  --accent-color: #4dabf7;
+  --accent-hover-color: #339af0;
+  --success-color: #51cf66;
+  --warning-color: #ffd43b;
+  --danger-color: #ff6b6b;
+  --info-color: #74c0fc;
+  --button-background: #2d2d2d;
+  --button-hover-background: #3a3a3a;
+  --button-text: #ffffff;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Basic styling */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Global theme-aware styles */
+.light-theme,
+.dark-theme {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Scrollbar styling for dark theme */
+.dark-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark-theme ::-webkit-scrollbar-track {
+  background: var(--surface-color);
+}
+
+.dark-theme ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover-color);
+}
+
+/* Light theme scrollbar */
+.light-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.light-theme ::-webkit-scrollbar-track {
+  background: var(--surface-color);
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.light-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover-color);
+}
