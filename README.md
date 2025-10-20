@@ -121,6 +121,21 @@ faakash-BCA45B59-B747-4568-9BC5-94422F6F4984/
   - Audit logging service
 - **Benefits**: Consistent security implementation
 
+## System Flowcharts
+
+The following flowcharts provide visual documentation of the system architecture and processes:
+
+### Available Flowcharts
+
+1. **APIRequestFlow.png** - API request flow and authentication process
+2. **SystemArchFlow.png** - Overall system architecture and component relationships  
+3. **UserAuthentication.png** - User authentication and authorization flow
+
+These flowcharts are located in the `Flowcharts/` directory and provide visual representations of:
+- How API requests are processed
+- System component interactions
+- User authentication and role-based access control flows
+
 ## Data Model Explanation
 
 ### Database Schema
