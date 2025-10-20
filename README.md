@@ -11,13 +11,10 @@ A comprehensive task management system built with role-based access control (RBA
 ### 1. Clone and Install Dependencies
 
 ```bash
-cd faakash-BCA45B59-B747-4568-9BC5-94422F6F4984
 npm install
 ```
 
 ### 2. Environment Configuration
-
-Create a `.env` file in the root directory with the following variables:
 
 ```env
 # JWT Configuration
@@ -42,7 +39,7 @@ CORS_ORIGIN=http://localhost:4200
 
 ```bash
 # Start the NestJS API server
-nx serve api
+npx nx serve api
 
 # The API will be available at http://localhost:3001
 ```
@@ -51,7 +48,7 @@ nx serve api
 
 ```bash
 # Start the Angular dashboard
-nx serve dashboard
+npx nx serve dashboard
 
 # The dashboard will be available at http://localhost:4200
 ```
